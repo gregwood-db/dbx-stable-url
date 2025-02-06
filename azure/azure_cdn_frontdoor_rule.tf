@@ -5,11 +5,10 @@ resource "azurerm_cdn_frontdoor_rule" "example" {
   behavior_on_match         = "Continue"
 
   actions {
-    url_redirect_action {
-      redirect_type        = "Found"
-      redirect_protocol    = "MatchRequest"
-      destination_path     = "/sql/1.0/warehouses/${var.primary_warehouse_id}"
-      destination_hostname = azurerm_cdn_frontdoor_origin.primary_workspace_origin.host_name
+    url_rewrite_action {
+      source_pattern        = "/warehouse"
+      destination    = "/sql/1.0/warehouses/${var.primary_warehouse_id}"
+      preserve_unmatched_path = false
     }
   }
 
